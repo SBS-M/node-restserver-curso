@@ -12,6 +12,9 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
+app.get('/', function (req, res) {
+    res.json('Main usuarios')
+  });
 
 app.get('/usuario', function (req, res) {
   res.json('get usuarios')
@@ -41,7 +44,7 @@ app.put('/usuario/:id', function (req, res) {
 });
 
 app.delete('/usuario', function (req, res) {
-    res.json('get usuarios')
+    res.json('delete usuarios')
 });
  
 app.listen(process.env.PORT, () => {
