@@ -1,8 +1,12 @@
 
 require('./config/config');
 
-const express = require('express')
-const app = express()
+
+const express = require('express');
+const app = express();
+
+// Using Node.js `require()`
+const mongoose = require('mongoose');
 
 const bodyParser = require('body-parser');
 
@@ -12,40 +16,24 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
+app.use(require('./routes/usuario'));
+
 app.get('/', function (req, res) {
     res.json('Main usuarios')
-  });
-
-app.get('/usuario', function (req, res) {
-  res.json('get usuarios')
 });
 
-app.post('/usuario', function (req, res) {
 
-    let body = req.body;
-
-    if ( body.nombre === undefined ){
-        res.status(400).json({
-            ok: false,
-            mensaje: `El nombre es necesario`
-        });
-    } else {
-        res.json({body})
-    }
-    
-});
-
-app.put('/usuario/:id', function (req, res) {
-    let idUsuario = req.params.id;
-
-    console.log(`idUsuario `, idUsuario);
-    
-    res.json({ idUsuario })
-});
-
-app.delete('/usuario', function (req, res) {
-    res.json('delete usuarios')
-});
+// Conexion a base de datos
+mongoose.connect(process.env.URLDB, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+  useFindAndModify: false
+}).then((result) => {
+    console.log(`Se inicio de forma correcta la conexion a la base de datos`);
+}).catch((err) => {
+    console.log(`Hubo un error al iniciar la conexion a la base de datos `, err);
+});;
  
 app.listen(process.env.PORT, () => {
     console.log(`Escuchando puerto 3000`);
