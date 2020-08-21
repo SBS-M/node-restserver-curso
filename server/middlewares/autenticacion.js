@@ -11,7 +11,7 @@ const ROLES_VALIDOS = ['ADMIN_ROLE'];
 let verificaToken = (req, resp, next) => {
 
     let token = req.get('token');
-
+    
     jwt.verify( token, process.env.SEED, (err, decoded) => {
 
         if ( err ) {
